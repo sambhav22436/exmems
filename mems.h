@@ -247,29 +247,6 @@ this function free up the memory pointed by our virtual_address and add it to th
 Parameter: MeMS Virtual address (that is created by MeMS) 
 Returns: nothing
 */
-void mems_free(void *v_ptr){
-    MainChainNode* main_node = main_chain_head;
-
-    while (main_node) {
-        SubChainNode* sub_node = main_node->sub_chain;
-
-        while (sub_node) {
-            if (sub_node->v_ptr == v_ptr) {
-                // Mark the segment as free (type 0) and reset the wasted value
-                sub_node->type = 0;
-                main_node->used-=sub_node->size;
-
-                return; // Memory freed and added to the free list
-            }
-
-            sub_node = sub_node->next;
-        }
-        combineFreeSubNodes(main_node);
-
-        main_node = main_node->next;
-    }
-    
-}
 void combineFreeSubNodes(MainChainNode* main_node) {
     SubChainNode* current_sub_node = main_node->sub_chain;
     SubChainNode* next_sub_node;
@@ -295,4 +272,29 @@ void combineFreeSubNodes(MainChainNode* main_node) {
             current_sub_node = current_sub_node->next;
         }
     }
+    
+void mems_free(void *v_ptr){
+    MainChainNode* main_node = main_chain_head;
+
+    while (main_node) {
+        SubChainNode* sub_node = main_node->sub_chain;
+
+        while (sub_node) {
+            if (sub_node->v_ptr == v_ptr) {
+                // Mark the segment as free (type 0) and reset the wasted value
+                sub_node->type = 0;
+                main_node->used-=sub_node->size;
+
+                return; // Memory freed and added to the free list
+            }
+
+            sub_node = sub_node->next;
+        }
+        combineFreeSubNodes(main_node);
+
+        main_node = main_node->next;
+    }
+    
+}
+
 }
