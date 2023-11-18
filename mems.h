@@ -30,7 +30,7 @@ void* v_ptr = (void*)1000;
 
 
 // Function to add a new node to the main chain
-Mainchainnode* addToMainChain(size_t size) {
+MainChainNode* addToMainChain(size_t size) {
     // Calculate the size to allocate based on the page size
     size_t main_node_size = size;
     size_t allocation_size = (main_node_size + PAGE_SIZE - 1) / PAGE_SIZE * PAGE_SIZE;
@@ -61,7 +61,7 @@ Mainchainnode* addToMainChain(size_t size) {
 
 }
 
-Subchainnode* addToSubChain(MainChainNode* main_node, size_t size, int type) {
+SubChainNode* addToSubChain(MainChainNode* main_node, size_t size, int type) {
     SubChainNode* new_sub_node = (SubChainNode*)(main_node->sub_chain);
     
     new_sub_node->size = size;
