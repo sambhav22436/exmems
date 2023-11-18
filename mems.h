@@ -24,9 +24,13 @@ typedef struct MainChainNode {
 
 } MainChainNode;
 
+MainChainNode* main_chain_head = NULL;
+void* v_ptr = (void*)1000;
+
+
 
 // Function to add a new node to the main chain
-void addToMainChain(size_t size) {
+Mainchainnode* addToMainChain(size_t size) {
     // Calculate the size to allocate based on the page size
     size_t main_node_size = size;
     size_t allocation_size = (main_node_size + PAGE_SIZE - 1) / PAGE_SIZE * PAGE_SIZE;
@@ -53,10 +57,11 @@ void addToMainChain(size_t size) {
 
     main_chain_head = new_main_node;
     new_main_node->sub_chain = (SubChainNode*)(new_main_node + 1);
+    return new_main_node;
 
 }
 
-void addToSubChain(MainChainNode* main_node, size_t size, int type) {
+Subchainnode* addToSubChain(MainChainNode* main_node, size_t size, int type) {
     SubChainNode* new_sub_node = (SubChainNode*)(main_node->sub_chain);
     
     new_sub_node->size = size;
@@ -72,6 +77,7 @@ void addToSubChain(MainChainNode* main_node, size_t size, int type) {
     new_sub_node->v_ptr = v_ptr; // Set the current virtual address
     v_ptr = v_ptr + size;
     main_node->sub_chain = new_sub_node->next;
+    return new_sub_node;
 }
 
 
