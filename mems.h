@@ -260,7 +260,7 @@ void combineFreeSubNodes(MainChainNode* main_node) {
             current_sub_node->next->v_ptr = current_sub_node->v_ptr + current_sub_node->size;
 
             // Calculate the physical address of the combined sub-node
-            void* physical_address = mems_get_physical_address(current_sub_node->v_ptr);
+            void* physical_address = mems_get(current_sub_node->v_ptr);
             current_sub_node->next = (SubChainNode*)((char*)physical_address + current_sub_node->size);
 
             // Update the links
